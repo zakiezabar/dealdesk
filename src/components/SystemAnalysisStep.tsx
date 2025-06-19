@@ -27,6 +27,8 @@ const SystemAnalysisStep: React.FC<SystemAnalysisStepProps> = ({ onNext, onBack,
     email: clientData?.email || '',
     projectDescription: clientData?.projectDescription || '',
     infraSize: clientData?.infraSize || '',
+    complianceNeeds: clientData?.complianceNeeds || '',
+    regions: clientData?.regions || '',
     timeline: clientData?.timeline || '',
     
     // System Analysis
@@ -84,10 +86,17 @@ const SystemAnalysisStep: React.FC<SystemAnalysisStepProps> = ({ onNext, onBack,
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="bg-accent/50 p-4 rounded-lg">
-            <h3 className="font-semibold mb-2">Client: {formData.clientName || 'Not specified'}</h3>
-            <p className="text-sm text-muted-foreground">
-              Infrastructure Size: {displayInfraSize(formData.infraSize)}
-            </p>
+            <h3 className="font-semibold mb-2">
+              Client: <span className="font-normal capitalize">{formData.clientName || 'Not specified'}</span></h3>
+            <h3 className="font-semibold mb-2">
+              Infrastructure Size: <span className="font-normal capitalize">{displayInfraSize(formData.infraSize)}</span>
+            </h3>
+            <h3 className="font-semibold mb-2">
+              Compliance: <span className="font-normal capitalize">{formData.complianceNeeds || 'Not specified'}</span>
+            </h3>
+            <h3 className="font-semibold mb-2">
+              Region: <span className="font-normal capitalize">{formData.regions || 'Not specified'}</span>
+            </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             
