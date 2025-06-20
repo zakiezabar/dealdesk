@@ -12,15 +12,26 @@ interface ConversationStepProps {
 interface Message {
   id: string; // Changed to string for better uniqueness
   type: 'ai' | 'user' | 'loading';
-  content: string;
+  content: string | React.ReactNode;
 }
 
 const ConversationStep: React.FC<ConversationStepProps> = ({ onNext }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
-      id: 'initial-ai-message',
+      id: 'initial-ai-message-1',
       type: 'ai',
-      content: 'Hi! I\'ll help you build a cloud landing zone. What would you like me to create for you? For example: "Build a cloud landing zone"'
+      content: 'Hi! I\'m here to help you create a Scope of Work based on your project needs.'
+    },
+    {
+      id: 'initial-ai-message-2',
+      type: 'ai',
+      content: (
+        <>
+          To get started, just tell me what you need. 
+          <br />
+          For example: <strong><em>&quot;Build a cloud landing zone&quot;</em></strong>
+        </>
+      )
     }
   ]);
   const messageIdRef = useRef(0); // Use ref to avoid stale closure issues
