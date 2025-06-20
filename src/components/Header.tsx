@@ -17,14 +17,20 @@ const Header = () => {
     <header className="bg-white shadow-sm border-b">
       <div className="container mx-auto px-4 py-2">
         <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <Image
-              src="/mobiz_logo.png"
-              width={86}
-              height={44}
-              alt="mobiz-logo"
-            />
-            <h1 className="text-xl font-bold text-gray-900">DealDesk</h1>
+          <div className="flex">
+            <Link
+              href="/"
+              className="flex items-center space-x-4"
+            >
+              <Image
+                src="/mobiz_logo.png"
+                width={86}
+                height={44}
+                alt="mobiz-logo"
+              />
+              <h1 className="text-xl font-bold text-gray-900">DealDesk</h1>
+            </Link>
+
           </div>
 
           <NavigationMenu>
