@@ -10,9 +10,9 @@ interface ConversationStepProps {
 }
 
 interface Message {
-  id: string; // Changed to string for better uniqueness
+  id: string;
   type: 'ai' | 'user' | 'loading';
-  content: string | React.ReactNode;
+  content: string | React.ReactNode; // Allow JSX content
 }
 
 const ConversationStep: React.FC<ConversationStepProps> = ({ onNext }) => {
@@ -27,9 +27,9 @@ const ConversationStep: React.FC<ConversationStepProps> = ({ onNext }) => {
       type: 'ai',
       content: (
         <>
-          To get started, just tell me what you need. 
+          To get started, just tell me what you need.
           <br />
-          For example: <strong><em>&quot;Build a cloud landing zone&quot;</em></strong>
+          For example: <strong><em>"Build a cloud landing zone"</em></strong>
         </>
       )
     }
@@ -39,6 +39,7 @@ const ConversationStep: React.FC<ConversationStepProps> = ({ onNext }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false); // Track user interaction
   const [collectedData, setCollectedData] = useState({
     initialRequest: '',
     clientName: '',
@@ -81,9 +82,17 @@ const ConversationStep: React.FC<ConversationStepProps> = ({ onNext }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Ensure page starts at top on mount
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    // Only auto-scroll if user has started interacting
+    if (hasUserInteracted) {
+      scrollToBottom();
+    }
+  }, [messages, hasUserInteracted]);
 
   // Loading animation effect
   useEffect(() => {
@@ -113,6 +122,8 @@ const ConversationStep: React.FC<ConversationStepProps> = ({ onNext }) => {
       content: 'Processing your requirements...'
     };
     setMessages(prev => [...prev, loadingMessage]);
+    // Scroll to show loading message
+    setTimeout(() => scrollToBottom(), 100);
 
     // Complete loading after 5 seconds and proceed to next step
     setTimeout(() => {
@@ -250,9 +261,11 @@ const ConversationStep: React.FC<ConversationStepProps> = ({ onNext }) => {
             value={currentInput}
             onChange={(e) => setCurrentInput(e.target.value)}
             onKeyPress={handleKeyPress}
+            onFocus={() => setHasUserInteracted(true)}
             placeholder={isLoading ? "Processing..." : "Type your response..."}
             className="flex-1"
             disabled={isLoading}
+            autoFocus={false}
           />
           <Button onClick={handleSendMessage} size="icon" disabled={isLoading}>
             <Send className="h-4 w-4" />
